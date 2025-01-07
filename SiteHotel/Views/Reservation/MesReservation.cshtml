@@ -1,0 +1,271 @@
+﻿@model IEnumerable<SiteHotel.Models.Reservation>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Réservations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 50px;
+            padding: 50px;
+        }
+        .navbar {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 8px 30px;
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+        }
+
+            .navbar.scrolled {
+                background: rgba(0, 0, 0, 0.95);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            }
+
+        .navbar-brand {
+            font-size: 26px;
+            font-weight: 600;
+            color: #d4a054 !important;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease-in-out, transform 0.3s ease;
+        }
+
+            .navbar-brand:hover {
+                color: #e6b87d !important;
+                transform: scale(1.05);
+            }
+
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            font-size: 15px;
+            font-weight: 500;
+            margin-right: 20px;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+            .navbar-nav .nav-link::after {
+                content: "";
+                position: absolute;
+                left: 50%;
+                bottom: -3px;
+                width: 0;
+                height: 2px;
+                background-color: #d4a054;
+                transition: width 0.3s ease, left 0.3s ease;
+            }
+
+            .navbar-nav .nav-link:hover::after {
+                width: 100%;
+                left: 0;
+            }
+
+            .navbar-nav .nav-link:hover {
+                color: #d4a054 !important;
+                transform: scale(1.02);
+            }
+
+        .navbar-toggler {
+            border: none;
+            outline: none;
+            background-color: #d4a054;
+            padding: 8px 12px;
+            transition: background-color 0.3s ease;
+        }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
+                background-color: #e6b87d;
+            }
+
+        .navbar-toggler {
+            border: none;
+            background-color: #d4a054;
+            padding: 5px 10px;
+            transition: background-color 0.3s ease;
+        }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
+                background-color: #e6b87d;
+            }
+
+
+        /* Page Header */
+        h2 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #343a40;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        /* Reservation Card Styling */
+        .reservation-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .reservation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .reservation-header {
+            font-size: 20px;
+            font-weight: bold;
+            color: #343a40;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        /* Sub-box Styling */
+        .sub-box {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .sub-box h6 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+
+        .sub-box p {
+            margin: 0;
+            font-size: 15px;
+            color: #6c757d;
+        }
+
+        /* Responsive Layout */
+       
+        
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">Hôtel Royal RGA</a>
+
+            <!-- Toggler for mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">À Propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Index">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="text-center">Mes Réservations</h2>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info text-center">Vous n'avez aucune réservation pour le moment.</div>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var reservation in Model)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="reservation-card">
+                            <div class="reservation-header">
+                                Réservation #@reservation.ID
+                            </div>
+
+                            <!-- Sub-box for Chambre Details -->
+                            <div class="sub-box">
+                                <h6>Détails de la Chambre</h6>
+                                <p><strong>Numéro :</strong> @reservation.Chambre.Numero</p>
+                                <p>
+                                    <strong>Type :</strong>
+                                    @if (reservation.Chambre.TypeChambreID == 1)
+                                    {
+                                        <span>Single</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Double</span>
+                                            }
+                                </p>
+                            </div>
+
+                            <!-- Sub-box for Date Details -->
+                            <div class="sub-box">
+                                <h6>Dates</h6>
+                                <p><strong>Date d'Arrivée :</strong> @reservation.DateArrivee.ToString("yyyy-MM-dd")</p>
+                                <p><strong>Date de Départ :</strong> @reservation.DateDepart.ToString("yyyy-MM-dd")</p>
+                            </div>
+
+                            <!-- Sub-box for Payment Details -->
+                            <div class="sub-box">
+                                <h6>Montant et Statut</h6>
+                                <p><strong>Montant :</strong> @reservation.Montant.ToString("0.00 €")</p>
+                                <p>
+                                    <strong>Statut :</strong>
+                                    @if (reservation.Statut == "Active")
+                                    {
+                                        <span class="text-success">Active</span>
+                                    }
+                                    else if (reservation.Statut == "Annulée")
+                                    {
+                                        <span class="text-warning">Annulée</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Confirmer</span>
+                                    }
+                                </p>
+                            </div>
+
+                            <!-- Sub-box for Account Email -->
+                            <div class="sub-box">
+                                <h6>Email de Réservation</h6>
+                                <p>@reservation.CompteEmail</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
