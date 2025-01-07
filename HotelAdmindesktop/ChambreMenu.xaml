@@ -1,0 +1,57 @@
+﻿<Window x:Class="HotelAdmin.ChambreMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gestion des Chambres" Height="700" Width="800" Background="#1E1E1E" Foreground="White">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Titre -->
+        <TextBlock Text="Gérer les Chambres" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <!-- Formulaire -->
+        <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,20">
+            <!-- Numéro de Chambre -->
+            <TextBlock Text="Numéro de Chambre" Margin="0,5"/>
+            <TextBox x:Name="ChambreIDTextBox" Height="30" Background="#333333" Foreground="White" BorderBrush="Gray" />
+
+            <!-- Type de Chambre -->
+            <TextBlock Text="Type de Chambre" Margin="0,10,0,5"/>
+            <ComboBox x:Name="TypeChambreComboBox" Height="30" Background="#DDDDDD" Foreground="Black" BorderBrush="Gray">
+                <ComboBoxItem Content="Suite" Tag="1"/>
+                <ComboBoxItem Content="Double" Tag="2"/>
+            </ComboBox>
+
+            <!-- Statut de la Chambre -->
+            <TextBlock Text="Statut de Chambre" Margin="0,10,0,5"/>
+            <ComboBox x:Name="StatutChambreComboBox" Height="30" Background="#DDDDDD" Foreground="Black" BorderBrush="Gray">
+                <ComboBoxItem Content="Disponible" Tag="true"/>
+                <ComboBoxItem Content="Occupée" Tag="false"/>
+            </ComboBox>
+
+            <!-- Date d'Arrivée -->
+            <TextBlock Text="Date d'Arrivée" Margin="0,10,0,5"/>
+            <DatePicker x:Name="DateArriveePicker" Height="30" Background="#DDDDDD" Foreground="Black" BorderBrush="Gray"/>
+
+            <!-- Date de Départ -->
+            <TextBlock Text="Date de Départ" Margin="0,10,0,5"/>
+            <DatePicker x:Name="DateDepartPicker" Height="30" Background="#DDDDDD" Foreground="Black" BorderBrush="Gray"/>
+
+            <!-- Boutons -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20">
+                <Button Content="Ajouter Chambre" Width="200" Height="40" Margin="10" Click="AjouterChambre_Click"
+                        Background="#4CAF50" Foreground="White" BorderBrush="#388E3C"/>
+                <Button Content="Afficher Chambres" Width="200" Height="40" Margin="10" Click="AfficherChambres_Click"
+                        Background="#FF9800" Foreground="White" BorderBrush="#FB8C00"/>
+                <Button Content="Supprimer Chambre" Width="200" Height="40" Margin="10" Click="SupprimerChambre_Click"
+                        Background="#F44336" Foreground="White" BorderBrush="#D32F2F"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Zone d'affichage des chambres -->
+        <ListBox x:Name="ChambresListBox" Grid.Row="1" Margin="0,20" Background="#333333" Foreground="White"
+                 BorderBrush="#555555" BorderThickness="1" Height="250"/>
+    </Grid>
+</Window>

@@ -1,0 +1,164 @@
+﻿<Window x:Class="HotelAdmin.ReservationMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Réservation" Height="772" Width="660" Background="#1E1E1E" Foreground="White">
+    <Grid>
+        <!-- Définir les lignes pour structurer le contenu -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Menu de navigation -->
+            <RowDefinition Height="*"/>
+            <!-- Contenu dynamique -->
+        </Grid.RowDefinitions>
+
+        <!-- Menu de navigation avec boutons -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10" Grid.Row="0">
+            <Button x:Name="BtnAjouter" Content="Ajout Réservation" Width="150" Height="40" Margin="10" Click="BtnAjouter_Click" 
+                    Background="#4CAF50" Foreground="White" BorderBrush="#388E3C" BorderThickness="1"/>
+            <Button x:Name="BtnAfficher" Content="Affichage" Width="150" Height="40" Margin="10" Click="BtnAfficher_Click" 
+                    Background="#2196F3" Foreground="White" BorderBrush="#1976D2" BorderThickness="1"/>
+            <Button x:Name="BtnSupprimer" Content="Suppression" Width="150" Height="40" Margin="10" Click="BtnSupprimer_Click" 
+                    Background="#F44336" Foreground="White" BorderBrush="#D32F2F" BorderThickness="1"/>
+        </StackPanel>
+
+        <!-- Zone de contenu dynamique -->
+        <Grid Margin="20" Grid.Row="1">
+            <!-- Formulaire d'ajout -->
+            <StackPanel x:Name="AjouterPanel" Visibility="Visible">
+                <TextBlock Text="Ajouter une Réservation" HorizontalAlignment="Center" FontSize="24" Margin="0,20,0,10" FontWeight="Bold" Foreground="White"/>
+
+                <!-- Champs du formulaire -->
+                <StackPanel Margin="10">
+                    <TextBlock Text="ID Client" Margin="0,10"/>
+                    <TextBox x:Name="ClientIDTextBox" Width="500" Padding="10" FontSize="10" Background="#333333" Foreground="White" BorderBrush="#f8f8f8" BorderThickness="1"/>
+
+                    <TextBlock Text="Type de Chambre" Margin="0,10"/>
+                    <ComboBox x:Name="ChambreTypeComboBox" Width="250" Margin="0,05" Padding="5" Background="#333333" Foreground="#000000" BorderBrush="#000000" BorderThickness="1">
+                        <ComboBoxItem Content="Suite" Tag="1"/>
+                        <ComboBoxItem Content="Double" Tag="2"/>
+                    </ComboBox>
+
+                    <TextBlock Text="Date d'Arrivée" Margin="0,10"/>
+                    <DatePicker x:Name="DateArriveePicker" Width="250" Margin="0,07" Background="#333333" Foreground="#000000" BorderBrush="#000000" BorderThickness="1"/>
+
+                    <TextBlock Text="Date de Départ" Margin="0,10"/>
+                    <DatePicker x:Name="DateDepartPicker" Width="250" Margin="0,07" Background="#333333" Foreground="#000000" BorderBrush="#000000" BorderThickness="1"/>
+
+                    <TextBlock x:Name="PrixTextBlock" Text="Prix : 0 MAD" Margin="0,05" FontSize="16" FontWeight="Bold"/>
+
+                    <TextBlock Text="Chambres Disponibles" Margin="0,10"/>
+                    <ComboBox x:Name="AvailableChambresComboBox" Width="250" Margin="0,10" Background="#333333" Foreground="black" BorderBrush="black" BorderThickness="1"/>
+
+                    <Button Content="Afficher Chambres Disponibles" Width="250" Height="40" Margin="0,10" Click="AfficherChambresDisponibles_Click" 
+                            Background="#FF9800" Foreground="White" BorderBrush="#FB8C00" BorderThickness="1"/>
+                    <Button Content="Ajouter Réservation" Width="250" Height="40" Margin="0,10" Click="AjouterReservation_Click" 
+                            Background="#4CAF50" Foreground="White" BorderBrush="#388E3C" BorderThickness="1"/>
+                </StackPanel>
+            </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel x:Name="AfficherPanel" Visibility="Collapsed">
+                <!-- Titre -->
+                <TextBlock Text="Rechercher Réservation" HorizontalAlignment="Center" FontSize="24" Margin="0,20,0,10" FontWeight="Bold"/>
+
+                <!-- Conteneur principal pour les boutons et la recherche -->
+                <StackPanel Margin="20">
+                    <!-- Row pour l'ID Client -->
+                    <TextBlock Text="ID Client" Margin="0,10"/>
+                    <TextBox x:Name="RechercherIDClientTextBox" Width="250" Margin="0,10" Background="#333333" Foreground="White" BorderBrush="#555555" BorderThickness="1"/>
+
+                    <!-- Conteneur pour les boutons -->
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20">
+                        <!-- Boutons alignés côte à côte -->
+                        <Button Content="Afficher toutes les réservations" Width="200" Height="40" Margin="10,0" Click="AfficherToutesLesReservations_Click" 
+                    Background="#2196F3" Foreground="White" BorderBrush="#1976D2" BorderThickness="1"/>
+                        <Button Content="Trier les réservations" Width="200" Height="40" Margin="10,0" Click="TrierReservations_Click" 
+                    Background="#2196F3" Foreground="White" BorderBrush="#1976D2" BorderThickness="1"/>
+                        <Button Content="Afficher les réservations non-payer" Width="200" Height="40" Margin="10,0" Click="TrierReservationsNonPayeesParDate_Click" 
+                    Background="#2196F3" Foreground="White" BorderBrush="#1976D2" BorderThickness="1"/>
+                        <Button Content="Afficher les réservations Actif" Width="200" Height="40" Margin="10,0" Click="VoirLesReservationArchiver" 
+Background="#2196F3" Foreground="White" BorderBrush="#1976D2" BorderThickness="1"/>
+                        <Button Content="Afficher les réservations non actives" Width="200" Height="40" Margin="10,0" Click="AfficherReservationsNonActives_Click" 
+        Background="#2196F3" Foreground="White" BorderBrush="#1976D2" BorderThickness="1"/>
+                        <Button Content="Marquer comme Payée" Width="200" Height="40" Margin="10" Click="MarquerCommePayee_Click" 
+        Background="#4CAF50" Foreground="White" BorderBrush="#388E3C" BorderThickness="1"/>
+                        <Button Content="Marquer comme Non Payée" Width="200" Height="40" Margin="10" Click="MarquerCommeNonPayee_Click" 
+        Background="#FF9800" Foreground="White" BorderBrush="#FB8C00" BorderThickness="1"/>
+                        <Button Content="Afficher Montant Dû" Width="200" Height="40" Margin="10" Click="AfficherMontantDu_Click" 
+        Background="#2196F3" Foreground="White" BorderBrush="#1976D2" BorderThickness="1"/>
+                        
+                        <Button Content="Afficher Paiements Réglés" Width="200" Height="40" Margin="10" Click="AfficherPaiementsRegles_Click" 
+        Background="#4CAF50" Foreground="White" BorderBrush="#388E3C" BorderThickness="1"/>
+                        <Button Content="Afficher Paiements en Attente" Width="200" Height="40" Margin="10" Click="AfficherPaiementsEnAttente_Click" 
+        Background="#FF9800" Foreground="White" BorderBrush="#FB8C00" BorderThickness="1"/>
+                            <Button Content="Afficher Total des Montants" 
+                                Width="250" 
+                                Height="40" 
+                                Margin="10" 
+                                Click="AfficherTotalMontants_Click" 
+                                Background="#4CAF50" 
+                                Foreground="White" 
+                                BorderBrush="#388E3C" 
+                                BorderThickness="1"/>
+
+                        </WrapPanel>
+
+
+                    <!-- Ajout du TextBlock pour afficher le montant dû -->
+                    <TextBlock x:Name="MontantDuTextBlock" 
+                   Text="Montant Dû : 0 MAD" 
+                   HorizontalAlignment="Center" 
+                   FontSize="16" 
+                   Margin="10,20,10,10" 
+                   FontWeight="Bold" 
+                   Foreground="White"/>
+
+                        <TextBlock x:Name="TotalMontantsTextBlock" 
+                  Text="Total des Montants : 0 MAD" 
+                  HorizontalAlignment="Center" 
+                  FontSize="16" 
+                  Margin="10,20,10,10" 
+                  FontWeight="Bold" 
+                  Foreground="White"/>
+
+                        <!-- Bouton recherche par Client ID -->
+                    <Button Content="Rechercher par Client ID" Width="250" Height="40" Margin="0,20" Click="RechercherParClientID_Click" 
+                Background="#2196F3" Foreground="White" BorderBrush="#1976D2" BorderThickness="1"/>
+
+                    <!-- Affichage des résultats sous forme de liste -->
+                    <ListBox x:Name="ReservationsListBox" Width="600" Height="300" Margin="0,20" Background="#333333" Foreground="White" BorderBrush="#555555" BorderThickness="1"/>
+                </StackPanel>
+            </StackPanel>
+            </ScrollViewer>
+
+
+            <!-- Section de suppression des réservations -->
+            <StackPanel x:Name="SupprimerPanel" Visibility="Collapsed">
+                <TextBlock Text="Supprimer une Réservation" HorizontalAlignment="Center" FontSize="24" Margin="0,20,0,10" FontWeight="Bold"/>
+
+                <StackPanel Margin="20">
+                    <!-- Nouveau bouton pour afficher les réservations actives -->
+                    <Button Content="Voir les Réservations Actives" Width="250" Height="40" Margin="0,10" 
+        Click="AfficherReservationsActives_Click" Background="#2196F3" Foreground="White" BorderBrush="#1976D2" BorderThickness="1"/>
+
+                    <!-- Liste des réservations -->
+                    <TextBlock Text="Liste des Réservations" Margin="0,10"/>
+                    <ListBox x:Name="ActiveReservationsListBox" Width="600" Height="200" Margin="0,10" 
+        Background="#333333" Foreground="White" BorderBrush="#555555" BorderThickness="1"/>
+
+                    <!-- Zone pour entrer l'ID à supprimer -->
+                    <TextBlock Text="Entrez l'ID de la réservation à supprimer" Margin="0,10"/>
+                    <TextBox x:Name="ReservationIDTextBox" Width="250" Height="30" Margin="0,10" Background="#eeeeee" />
+
+                    <!-- Label pour afficher des messages -->
+                    <Label x:Name="MessageLabel" Content="" Foreground="Red" Margin="0,10" />
+
+                    <!-- Bouton pour supprimer -->
+                    <Button Content="Supprimer la Réservation" Width="250" Height="40" Margin="0,10" 
+        Click="SupprimerReservationActive_Click" Background="#F44336" Foreground="White" BorderBrush="#D32F2F" BorderThickness="1"/>
+                </StackPanel>
+            </StackPanel>
+
+
+        </Grid>
+    </Grid>
+</Window>
